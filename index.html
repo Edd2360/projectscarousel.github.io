@@ -6,64 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appunti e Progetti</title>
     <style>
-        /* Existing styles */
-        /* ... */
-
-        /* Style for the language dropdown menu */
-        .language-selector {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #334;
+            color: white;
+            text-align: left;
+        }
+        .image-container {
+            position: relative;
+            text-align: center;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+        .image-container h1 {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 16px;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 48px;
+        }
+        .content {
+            margin: 20px;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Language dropdown -->
-    <select class="language-selector" id="languageSelect" onchange="switchLanguage()">
-        <option value="ENG">ENG</option>
-        <option value="ITA">ITA</option>
-    </select>
+    <!-- Image and title container -->
+    <div class="image-container">
+        <img src="OSC.jpg" alt="PROGETTI E APPUNTI">
+        <h1>Appunti e Progetti</h1>
+    </div>
 
-    <!-- Existing content -->
-    <!-- ... -->
-
-    <script>
-        function switchLanguage() {
-            var language = document.getElementById('languageSelect').value;
-            // Define your English and Italian texts
-            var textsEng = {
-                title: "Notes and Projects",
-                para1: "Notes",
-                para2: "Here I will upload my projects made for companies and various competitions.",
-                para3: "Projects",
-                para4: "Here, there will be some of my notes on the latest experiments and technologies under test ;)"
-            };
-            var textsIta = {
-                title: "Appunti e Progetti",
-                para1: "Appunti",
-                para2: "Qui caricherò i miei progetti realizzati per aziende e gare varie.",
-                para3: "Progetti",
-                para4: "Qua invece ci sarà qualche mio appunto sugli ultimi esperimenti e tecnologie sotto test ;)"
-            };
-
-            // Switch text based on selected language
-            if (language === 'ENG') {
-                document.querySelector('.image-container h1').textContent = textsEng.title;
-                var paragraphs = document.querySelectorAll('.content p');
-                paragraphs[0].textContent = textsEng.para1;
-                paragraphs[1].textContent = textsEng.para2;
-                paragraphs[2].textContent = textsEng.para3;
-                paragraphs[3].textContent = textsEng.para4;
-            } else {
-                document.querySelector('.image-container h1').textContent = textsIta.title;
-                var paragraphs = document.querySelectorAll('.content p');
-                paragraphs[0].textContent = textsIta.para1;
-                paragraphs[1].textContent = textsIta.para2;
-                paragraphs[2].textContent = textsIta.para3;
-                paragraphs[3].textContent = textsIta.para4;
-            }
-        }
-    </script>
+    <!-- Content section -->
+    <div class="content">
+        <p>Appunti</p>
+        <p>Qui caricherò i miei progetti realizzati per aziende e gare varie.</p>
+        <p>Progetti</p>
+        <p>Qua invece ci sarà qualche mio appunto sugli ultimi esperimenti e tecnologie sotto test ;)</p>
+    </div>
 </body>
 </html>
