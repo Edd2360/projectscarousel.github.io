@@ -43,12 +43,22 @@
 	.navbar {
 	    background-color: #ECF0F1; 
 	    overflow: hidden;
-	    position: fixed; /* Change from 'absolute' to 'fixed' */
-	    top: 0; /* Place the navbar at the top of the page */
+	    position: fixed;
+	    top: 0;
 	    width: 100%;
-	    text-align: center; /* Center the text within the navbar */
+	    text-align: center;
 	}
 	
+	.brand {
+	    display: inline-block;
+	    color: black;
+	    text-align: center;
+	    padding: 14px 16px;
+	    text-decoration: none;
+	    font-size: 17px;
+	    font-weight: bold;
+	    font-family: 'Comic Sans MS', sans-serif;
+	}
 	.navbar a {
 	    display: inline-block; /* Make the buttons inline-block for centering */
 	    color: black;
@@ -80,6 +90,7 @@
 
         <!-- Navbar section -->
     <div class="navbar">
+	<span class="brand">Grillo Edoardo</span>
         <a href="index.html">Home</a>
         <a href="archivio.html">Archivio</a>
         <a href="contatti.html">Contatti</a>
