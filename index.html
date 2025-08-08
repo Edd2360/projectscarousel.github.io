@@ -55,16 +55,25 @@
             padding: 0 10px;
         }
 
+        .hamburger {
+            display: none;
+            position: absolute;
+            top: 26vh;
+            right: 20px;
+            font-size: 8vw;
+            cursor: pointer;
+            z-index: 10;
+            color: white;
+        }
+
         .navbar {
             background-color: #222;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            width: 100%;
             position: relative;
             top: 0;
-            width: 100%;
-            gap: 10px;
             padding: 10px 0;
         }
 
@@ -74,12 +83,17 @@
             font-size: 6vw;
             font-weight: bold;
             font-family: 'Comic Sans MS', sans-serif;
-            padding: 5px 10px;
+            padding: 10px;
+            display: block;
         }
 
         .navbar a:hover {
             background-color: #ddd;
             color: black;
+        }
+
+        .navbar.hidden {
+            display: none;
         }
 
         .content {
@@ -103,12 +117,23 @@
         }
 
         @media (min-width: 768px) {
-            .image-container h1 {
-                font-size: 62px;
+            .hamburger {
+                display: none;
+            }
+
+            .navbar {
+                flex-direction: row;
+                justify-content: center;
             }
 
             .navbar a {
                 font-size: 30px;
+                padding: 6px 10px;
+                display: inline-block;
+            }
+
+            .image-container h1 {
+                font-size: 62px;
             }
 
             .content {
@@ -128,7 +153,11 @@
         <h1>Portfolio Progetti</h1>
     </div>
 
-    <div class="navbar">
+    <!-- Icona hamburger (solo su mobile) -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <!-- Navbar -->
+    <div class="navbar hidden" id="navbar">
         <a href="index.html">🏠</a>
         <a href="contatti.html">⛅</a>
         <a href="archivio.html">📁</a>
@@ -149,5 +178,7 @@
     <footer>
         <p>Coded by Grillo Edoardo</p>
     </footer>
-</body>
-</html>
+
+    <script>
+        function toggleMenu() {
+            const navbar =
