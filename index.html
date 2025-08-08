@@ -13,17 +13,20 @@
             padding: 0;
             background-color: #334;
             color: white;
-            text-align: left;
+            text-align: center;
         }
+
         .image-container {
             position: relative;
             text-align: center;
         }
+
         .image-container img {
             width: 100%;
             height: 25vh;
             margin: 0 auto;
         }
+
         .image-container h1 {
             position: absolute;
             top: 20%;
@@ -34,32 +37,44 @@
             font-weight: bold;
             font-family: 'Comic Sans MS', sans-serif;
         }
+
         .navbar {
             background-color: #222;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: absolute;
-            top: 200px;
+            top: 25vh;
             width: 100%;
+            gap: 20px;
+            padding: 10px 0;
         }
+
         .navbar a {
-            float: left;
-            display: block;
             color: white;
-            text-align: center;
-            padding: 14px 16px;
             text-decoration: none;
             font-size: 30px;
             font-weight: bold;
             font-family: 'Comic Sans MS', sans-serif;
+            padding: 14px 16px;
         }
+
         .navbar a:hover {
             background-color: #ddd;
             color: black;
         }
+
         .content {
-            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 50vh;
             font-size: 20px;
+            text-align: center;
+            margin-top: 30vh;
         }
+
         footer {
             position: fixed;
             bottom: 0;
@@ -85,25 +100,18 @@
     </div>
 
     <div class="content">
-        <br><br>
         <section>
-            <p>&emsp;&emsp;Progetti in corso...</p>
-            <p>&emsp;&emsp;</p>
-            <p>&emsp;&emsp;Sensore: "DHT11"</p>
-            <p>&emsp;&emsp;Ora aggiornamento: "Timestamp"</p>
-            <p>&emsp;&emsp;Localita': "Dati GPS"</p>
-            <p>&emsp;&emsp;</p>
-            <p>&emsp;&emsp;Temperatura: "Temp"</p>
-            <p>&emsp;&emsp;Umidita': "Hum"</p>
+            <p>Progetti in corso...</p>
+            <p>Sensore: "DHT11"</p>
+            <p>Ora aggiornamento: "Timestamp"</p>
+            <p>Località: "Dati GPS"</p>
+            <p>Temperatura: "Temp"</p>
+            <p>Umidità: "Hum"</p>
         </section>
     </div>
+
+    <footer>
+        <p>Coded by Grillo Edoardo</p>
+    </footer>
 </body>
-<footer>
-    <p>Coded by Grillo Edoardo</p>
-</footer>
 </html>
-
-
-
-
-
