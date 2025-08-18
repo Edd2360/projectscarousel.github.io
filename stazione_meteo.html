@@ -96,6 +96,10 @@
       font-size: 5vw;
       text-align: center;
     }
+    .misure {
+      text-align: left;
+      display: inline-block;
+    }
     footer {
       position: static;
       margin-top: 20px;
@@ -150,15 +154,17 @@
 
   <div class="content">
     <section>
-      <p>Misure all'orario: "TIMESTAMP"</p>
-      <p>Pressione atmosferica</p>
-      <p>"PRESSIONE IN ATM"</p>
-      <p>Temperatura</p>
-      <p>"TEMPERATURA BMP280"</p>
-      <p>Umidità</p>
-      <p>"UMIDITA DHT11"</p>
-      <p>Particolato in μg/m³</p>
-      <p>"PARTICOLATO PM2.5"</p>
+      <div class="misure">
+        <p>Misure all'orario: "TIMESTAMP"</p>
+        <p>Pressione atmosferica</p>
+        <p>"PRESSIONE IN ATM"</p>
+        <p>Temperatura</p>
+        <p>"TEMPERATURA BMP280"</p>
+        <p>Umidità</p>
+        <p>"UMIDITA DHT11"</p>
+        <p>Particolato in μg/m³</p>
+        <p>"PARTICOLATO PM2.5"</p>
+      </div>
     </section>
 
     <section>
@@ -169,30 +175,32 @@
     <section>
       <p>Sensori utilizzati nella stazione meteo:</p>
       <ul style="text-align:left; display:inline-block;">
-        <li>Bosh BMP280 Digital pressure & temperature sensor</li>
-        <p>Pressione</p>
-        <p>Range: 0 - 20000 hPa</p>
-        <p>Absolute accuracy: ±1.7 hPa (-20 - 0 ℃) | ±1.0 hPa (0 - 65 ℃)</p>
-        <p>Temperatura</p>
-        <p>Range: -45 - +85 ℃</p>
-        <p>Absolute accuracy: ±0.5 ℃ (@25℃) | ±1.0 ℃ (0 - 65 ℃)</p>
-        <p> </p>
-
-        <li>DHT11 Temperature & humidity sensor</li>
-        <p>Temperatura</p>
-        <p>Range: 0-50 ℃</p>
-        <p>Absolute accuracy: ±2 ℃</p>
-        <p>Umidità</p>
-        <p>Range: 20 - 90% RH</p>
-        <p>Absolute accuracy: ±5％ RH </p>
-        <p> </p>
-
-        <li>PMS7003 Digital universal particle concentration sensor</li>
-        <p>PPM</p>
-        <p>Range: 0.3~1.0；1.0~2.5；2.5~10 Micrometer（μ m)</p>
-        <p>Absolute accuracy: ±10% (100 - 500μ g/m³) | ±10μ g/m³ (0 - 100μ g/m³)</p>
-        <p>MTTF ≥3 Year（Y) (First startup August 2025)</p>
-        <p> </p>
+        <li>
+          Bosh BMP280 Digital pressure & temperature sensor
+          <ul>
+            <li>Pressione: Range 0 - 20000 hPa</li>
+            <li>Accuratezza assoluta: ±1.7 hPa (-20 - 0 ℃) | ±1.0 hPa (0 - 65 ℃)</li>
+            <li>Temperatura: Range -45 - +85 ℃</li>
+            <li>Accuratezza assoluta: ±0.5 ℃ (@25℃) | ±1.0 ℃ (0 - 65 ℃)</li>
+          </ul>
+        </li>
+        <li>
+          DHT11 Temperature & humidity sensor
+          <ul>
+            <li>Temperatura: Range 0 - 50 ℃</li>
+            <li>Accuratezza assoluta: ±2 ℃</li>
+            <li>Umidità: Range 20 - 90% RH</li>
+            <li>Accuratezza assoluta: ±5% RH</li>
+          </ul>
+        </li>
+        <li>
+          PMS7003 Digital universal particle concentration sensor
+          <ul>
+            <li>PPM: Range 0.3~1.0；1.0~2.5；2.5~10 μm</li>
+            <li>Accuratezza assoluta: ±10% (100 - 500 μg/m³) | ±10 μg/m³ (0 - 100 μg/m³)</li>
+            <li>MTTF ≥ 3 Anni (Primo avvio Agosto 2025)</li>
+          </ul>
+        </li>
       </ul>
     </section>
   </div>
