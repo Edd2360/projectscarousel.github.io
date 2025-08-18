@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=chrome" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contatti</title>
+  <link rel="icon" type="image/ico" href="bulb.ico" />
+  <style>
+    /* Inserisci qui lo stesso CSS della pagina principale */
+  </style>
+</head>
+<body>
+  <div class="image-container">
+    <img src="contatti.jpg" alt="Contatti" />
+    <div class="overlay"></div>
+    <h1>Contatti</h1>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </div>
+  <div class="navbar" id="navbar">
+    <a href="index.html">🏠</a>
+    <a href="stazione_meteo.html">⛅</a>
+    <a href="archivio.html">📁</a>
+    <a href="contatti.html">📬</a>
+  </div>
+  <div class="content">
+    <section>
+      <p>Per informazioni o collaborazioni:</p>
+      <ul>
+        <li>Email: <a href="mailto:tuamail@example.com" style="color: #ffd700;">tuamail@example.com</a></li>
+        <li>LinkedIn: <a href="https://linkedin.com/in/tuonome" style="color: #ffd700;">Profilo LinkedIn</a></li>
+      </ul>
+    </section>
+  </div>
+  <footer>
+    <p>Coded by Grillo Edoardo</p>
+  </footer>
+  <script>
+    function toggleMenu() {
+      const navbar = document.getElementById('navbar');
+      navbar.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>
