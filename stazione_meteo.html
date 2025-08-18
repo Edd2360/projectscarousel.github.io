@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=chrome" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stazione Meteo</title>
+  <link rel="icon" type="image/ico" href="bulb.ico" />
+  <style>
+    /* Inserisci qui lo stesso CSS della pagina principale */
+  </style>
+</head>
+<body>
+  <div class="image-container">
+    <img src="meteo.jpg" alt="Stazione Meteo" />
+    <div class="overlay"></div>
+    <h1>Stazione Meteo</h1>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </div>
+  <div class="navbar" id="navbar">
+    <a href="index.html">🏠</a>
+    <a href="stazione_meteo.html">⛅</a>
+    <a href="archivio.html">📁</a>
+    <a href="contatti.html">📬</a>
+  </div>
+  <div class="content">
+    <section>
+      <p>Qui troverai informazioni e aggiornamenti sul progetto della stazione meteo.</p>
+      <ul>
+        <li>Monitoraggio temperatura e umidità</li>
+        <li>Grafici in tempo reale</li>
+        <li>Storico dati</li>
+      </ul>
+    </section>
+  </div>
+  <footer>
+    <p>Coded by Grillo Edoardo</p>
+  </footer>
+  <script>
+    function toggleMenu() {
+      const navbar = document.getElementById('navbar');
+      navbar.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>
