@@ -154,16 +154,8 @@
 
   <div class="content">
     <section>
-      <div class="misure">
-        <ul style="text-align:left; display:inline-block;">
-        <p>Misure all'orario: </p>
-        <p>Pressione: </p>
-        <p>Temperatura: </p>
-        <p>Umidità: </p>
-        <p>Altitudine: </p>
-        <p>PPM <1.0: </p>
-        <p>PPM 2.5: </p>
-        <p>PPM 10: </p>
+      <div class="misure" id="misure">
+        <p>Caricamento dati in corso...</p>
       </div>
     </section>
 
@@ -214,6 +206,47 @@
       const navbar = document.getElementById('navbar');
       navbar.classList.toggle('show');
     }
+
+    async function aggiornaMeteo() {
+      try {
+        // Aggiungi un timestamp per evitare cache
+        const response = await fetch('dati.json?_=' + new Date().getTime());
+        
+        if (!response.ok) {
+          throw new Error('Errore nel caricamento dati');
+        }
+        
+        const dati = await response.json();
+        
+        // Aggiorna l'HTML con i dati
+        document.getElementById('misure').innerHTML = `
+          <ul style="text-align:left; display:inline-block;">
+            <p>Misure all'orario: ${dati.orario || 'N/A'}</p>
+            <p>Pressione: ${dati.pressione ? dati.pressione + ' hPa' : 'N/A'}</p>
+            <p>Temperatura: ${dati.temperatura ? dati.temperatura + ' °C' : 'N/A'}</p>
+            <p>Umidità: ${dati.umidita ? dati.umidita + ' %' : 'N/A'}</p>
+            <p>Altitudine: ${dati.altitudine ? dati.altitudine + ' m' : 'N/A'}</p>
+            <p>PPM <1.0: Dato non disponibile</p>
+            <p>PPM 2.5: Dato non disponibile</p>
+            <p>PPM 10: Dato non disponibile</p>
+          </ul>
+        `;
+      } catch (error) {
+        console.error('Errore:', error);
+        document.getElementById('misure').innerHTML = `
+          <p style="color: red;">Errore nel caricamento dei dati meteo</p>
+          <p>${error.message}</p>
+        `;
+      }
+    }
+
+    // Aggiorna i dati al caricamento della pagina
+    document.addEventListener('DOMContentLoaded', function() {
+      aggiornaMeteo();
+      
+      // Aggiorna ogni minuto
+      setInterval(aggiornaMeteo, 60000);
+    });
   </script>
 </body>
 </html>
