@@ -43,21 +43,32 @@
       z-index: 1;
     }
 
-    .image-container h1 {
+    .image-container .title-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 90%;
+    }
+
+    .image-container h1 {
       color: white;
       font-size: 8vw;
       font-weight: bold;
       font-family: 'Comic Sans MS', sans-serif;
-      z-index: 2;
-      padding: 0 10px;
       margin: 0;
-      width: auto;
-      max-width: 90%;
+      padding: 0;
       white-space: nowrap;
+    }
+
+    .image-container .subtitle {
+      color: white;
+      font-size: 4vw;
+      font-family: 'Comic Sans MS', sans-serif;
+      margin: 0;
+      padding: 0;
+      margin-top: 5px;
     }
 
     .hamburger {
@@ -144,13 +155,10 @@
 
       .image-container h1 {
         font-size: 62px;
-        padding: 0;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: auto;
-        max-width: 90%;
-        white-space: nowrap;
+      }
+
+      .image-container .subtitle {
+        font-size: 24px;
       }
 
       .content {
@@ -167,8 +175,10 @@
   <div class="image-container">
     <img src="PRJ.jpg" alt="PROGETTI" />
     <div class="overlay"></div>
-    <h1>Portfolio Progetti</h1>
-    <h1>di Grillo Edoardo</h1>
+    <div class="title-container">
+      <h1>Portfolio Progetti</h1>
+      <div class="subtitle">di Grillo Edoardo</div>
+    </div>
     <!-- Hamburger -->
     <div class="hamburger" onclick="toggleMenu()">☰</div>
   </div>
@@ -201,7 +211,3 @@
   </script>
 </body>
 </html>
-
-
-
-
