@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stazione Meteo</title>
   <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26c5.svg">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -99,6 +100,19 @@
     .misure {
       text-align: left;
       display: inline-block;
+      margin-bottom: 20px;
+    }
+    .grafico-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    canvas {
+      width: 100% !important;
+      height: 250px !important;
     }
     footer {
       position: static;
@@ -134,6 +148,9 @@
       }
       .content { font-size: 20px; }
       footer { font-size: 16px; }
+      canvas {
+        height: 300px !important;
+      }
     }
   </style>
 </head>
@@ -160,8 +177,15 @@
     </section>
 
     <section>
-      <p>Grafico dell'andamento nell'ultima settimana</p>
-      <p>*Grafico in python di tutto*</p>
+      <h3>Andamento Oggi</h3>
+      <div class="grafico-container">
+        <canvas id="graficoOggi"></canvas>
+      </div>
+      
+      <h3>Media Ultimi 7 Giorni</h3>
+      <div class="grafico-container">
+        <canvas id="graficoMedia"></canvas>
+      </div>
     </section>
 
     <section>
@@ -177,11 +201,11 @@
             <p>Range: -45 - +85 ℃</p>
             <p>Accuratezza assoluta: ±0.5 ℃ (@25℃) | ±1.0 ℃ (0 - 65 ℃)</p>
             <p>| Umidità |</p>
-            <p>Range: </p>
-            <p>Accuratezza assoluta: </p>
+            <p>Range: 0-100%</p>
+            <p>Accuratezza assoluta: ±3%</p>
             <p>| Altitudine |</p>
-            <p>Range: </p>
-            <p>Accuratezza assoluta: </p>
+            <p>Range: 0-9000 m</p>
+            <p>Accuratezza assoluta: ±1 m</p>
           </ul>
         </li>
         <li>
@@ -207,18 +231,160 @@
       navbar.classList.toggle('show');
     }
 
+    let chartOggi = null;
+    let chartMedia = null;
+
+    function calcolaMedia(array) {
+      if (array.length === 0) return 0;
+      const sum = array.reduce((a, b) => a + b, 0);
+      return (sum / array.length).toFixed(1);
+    }
+
+    function creaGraficoOggi(datiOggi) {
+      const ctx = document.getElementById('graficoOggi').getContext('2d');
+      
+      if (chartOggi) {
+        chartOggi.destroy();
+      }
+
+      const orari = Array.from({length: datiOggi.temperature.length}, (_, i) => {
+        const ore = Math.floor(i * 15 / 60);
+        const minuti = (i * 15) % 60;
+        return `${ore.toString().padStart(2, '0')}:${minuti.toString().padStart(2, '0')}`;
+      });
+
+      chartOggi = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: orari,
+          datasets: [
+            {
+              label: 'Temperatura (°C)',
+              data: datiOggi.temperature,
+              borderColor: 'rgb(255, 99, 132)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              yAxisID: 'y',
+            },
+            {
+              label: 'Umidità (%)',
+              data: datiOggi.umidita,
+              borderColor: 'rgb(54, 162, 235)',
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              yAxisID: 'y1',
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              title: {
+                display: true,
+                text: 'Temperatura (°C)'
+              }
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              title: {
+                display: true,
+                text: 'Umidità (%)'
+              },
+              grid: {
+                drawOnChartArea: false,
+              },
+            }
+          }
+        }
+      });
+    }
+
+    function creaGraficoMedia(storico) {
+      const ctx = document.getElementById('graficoMedia').getContext('2d');
+      
+      if (chartMedia) {
+        chartMedia.destroy();
+      }
+
+      const giorni = Object.keys(storico).sort();
+      const medieTemp = giorni.map(giorno => calcolaMedia(storico[giorno].temperature));
+      const medieUmid = giorni.map(giorno => calcolaMedia(storico[giorno].umidita));
+
+      // Formatta le date in italiano
+      const labels = giorni.map(data => {
+        const [anno, mese, giorno] = data.split('-');
+        return `${giorno}/${mese}`;
+      });
+
+      chartMedia = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Temp Media (°C)',
+              data: medieTemp,
+              borderColor: 'rgb(255, 159, 64)',
+              backgroundColor: 'rgba(255, 159, 64, 0.2)',
+              yAxisID: 'y',
+            },
+            {
+              label: 'Umid Media (%)',
+              data: medieUmid,
+              borderColor: 'rgb(75, 192, 192)',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              yAxisID: 'y1',
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              title: {
+                display: true,
+                text: 'Temperatura (°C)'
+              }
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              title: {
+                display: true,
+                text: 'Umidità (%)'
+              },
+              grid: {
+                drawOnChartArea: false,
+              },
+            }
+          }
+        }
+      });
+    }
+
     async function aggiornaMeteo() {
       try {
-        // Aggiungi un timestamp per evitare cache
-        const response = await fetch('dati.json?_=' + new Date().getTime());
+        // Carica dati correnti
+        const responseDati = await fetch('dati.json?_=' + new Date().getTime());
+        if (!responseDati.ok) throw new Error('Errore caricamento dati correnti');
+        const dati = await responseDati.json();
         
-        if (!response.ok) {
-          throw new Error('Errore nel caricamento dati');
-        }
+        // Carica storico
+        const responseStorico = await fetch('storico.json?_=' + new Date().getTime());
+        const storico = responseStorico.ok ? await responseStorico.json() : {};
         
-        const dati = await response.json();
+        const oggi = new Date().toISOString().split('T')[0];
+        const datiOggi = storico[oggi] || { temperature: [], umidita: [], pressione: [], altitudine: [], conteggio: 0 };
         
-        // Aggiorna l'HTML con i dati
+        // Aggiorna HTML
         document.getElementById('misure').innerHTML = `
           <ul style="text-align:left; display:inline-block;">
             <p>Misure all'orario: ${dati.orario || 'N/A'}</p>
@@ -231,6 +397,16 @@
             <p>PPM 10: Dato non disponibile</p>
           </ul>
         `;
+        
+        // Crea grafici
+        if (datiOggi.temperature.length > 0) {
+          creaGraficoOggi(datiOggi);
+        }
+        
+        if (Object.keys(storico).length > 0) {
+          creaGraficoMedia(storico);
+        }
+        
       } catch (error) {
         console.error('Errore:', error);
         document.getElementById('misure').innerHTML = `
@@ -243,9 +419,7 @@
     // Aggiorna i dati al caricamento della pagina
     document.addEventListener('DOMContentLoaded', function() {
       aggiornaMeteo();
-      
-      // Aggiorna ogni minuto
-      setInterval(aggiornaMeteo, 60000);
+      setInterval(aggiornaMeteo, 60000); // Aggiorna ogni minuto
     });
   </script>
 </body>
