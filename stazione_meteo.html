@@ -395,28 +395,45 @@
         chartOggi.destroy();
       }
 
+      // Inverti l'ordine per avere i dati più recenti a destra
+      const orariOrdinati = [...orariReali].reverse();
+      const temperatureOrdinate = [...datiOggi.temperature].reverse();
+      const umiditaOrdinate = [...datiOggi.umidita].reverse();
+
+      // Prendi solo gli ultimi 24 punti per non affollare il grafico
+      const ultimiOrari = orariOrdinati.slice(-24);
+      const ultimeTemperature = temperatureOrdinate.slice(-24);
+      const ultimeUmidita = umiditaOrdinate.slice(-24);
+
+      // Estrai solo l'orario (HH:MM) dalla stringa completa
+      const orariFormattati = ultimiOrari.map(orario => {
+        return orario.split(' ')[1].substring(0, 5); // Prende solo "HH:MM"
+      });
+
       chartOggi = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: orariReali,
+          labels: orariFormattati,
           datasets: [
             {
               label: 'Temperatura (°C)',
-              data: datiOggi.temperature,
+              data: ultimeTemperature,
               borderColor: 'rgb(255, 99, 132)',
               backgroundColor: 'rgba(255, 99, 132, 0.2)',
               tension: 0.4,
               fill: false,
-              borderWidth: 3
+              borderWidth: 3,
+              pointRadius: 3
             },
             {
               label: 'Umidità (%)',
-              data: datiOggi.umidita,
+              data: ultimeUmidita,
               borderColor: 'rgb(54, 162, 235)',
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               tension: 0.4,
               fill: false,
-              borderWidth: 3
+              borderWidth: 3,
+              pointRadius: 3
             }
           ]
         },
@@ -444,19 +461,33 @@
         chartPressione.destroy();
       }
 
+      // Inverti l'ordine per avere i dati più recenti a destra
+      const orariOrdinati = [...orariReali].reverse();
+      const pressioneOrdinata = [...datiOggi.pressione].reverse();
+
+      // Prendi solo gli ultimi 24 punti
+      const ultimiOrari = orariOrdinati.slice(-24);
+      const ultimaPressione = pressioneOrdinata.slice(-24);
+
+      // Estrai solo l'orario (HH:MM)
+      const orariFormattati = ultimiOrari.map(orario => {
+        return orario.split(' ')[1].substring(0, 5);
+      });
+
       chartPressione = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: orariReali,
+          labels: orariFormattati,
           datasets: [
             {
               label: 'Pressione (hPa)',
-              data: datiOggi.pressione,
+              data: ultimaPressione,
               borderColor: 'rgb(75, 192, 192)',
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               tension: 0.4,
               fill: false,
-              borderWidth: 3
+              borderWidth: 3,
+              pointRadius: 3
             }
           ]
         },
@@ -506,7 +537,8 @@
               backgroundColor: 'rgba(255, 159, 64, 0.2)',
               tension: 0.4,
               fill: false,
-              borderWidth: 3
+              borderWidth: 3,
+              pointRadius: 3
             },
             {
               label: 'Umidità Media (%)',
@@ -515,7 +547,8 @@
               backgroundColor: 'rgba(153, 102, 255, 0.2)',
               tension: 0.4,
               fill: false,
-              borderWidth: 3
+              borderWidth: 3,
+              pointRadius: 3
             }
           ]
         },
@@ -556,30 +589,39 @@
         const storico = responseStorico.ok ? await responseStorico.json() : {};
         
         const oggi = new Date().toISOString().split('T')[0];
-        const datiOggi = storico[oggi] || { temperature: [], umidita: [], pressione: [], altitudine: [], orari: [], conteggio: 0 };
+        const datiOggi = storico[oggi] || { 
+          temperature: [], 
+          umidita: [], 
+          pressione: [], 
+          altitudine: [], 
+          orari: [], 
+          conteggio: 0 
+        };
         
         // Aggiorna HTML
         document.getElementById('misure').innerHTML = `
           <ul style="text-align:left; display:inline-block;">
-            <p>🕒 Misure all'orario: <strong>${dati.orario || 'N/A'}</strong></p>
+            <p>🕒 Ultimo aggiornamento: <strong>${dati.orario || 'N/A'}</strong></p>
             <p>📊 Pressione: <strong>${dati.pressione ? dati.pressione + ' hPa' : 'N/A'}</strong></p>
             <p>🌡️ Temperatura: <strong>${dati.temperatura ? dati.temperatura + ' °C' : 'N/A'}</strong></p>
             <p>💧 Umidità: <strong>${dati.umidita ? dati.umidita + ' %' : 'N/A'}</strong></p>
             <p>⛰️ Altitudine: <strong>${dati.altitudine ? dati.altitudine + ' m' : 'N/A'}</strong></p>
-            <p>🌫️ PPM <1.0: Dato non disponibile</p>
-            <p>🌫️ PPM 2.5: Dato non disponibile</p>
-            <p>🌫️ PPM 10: Dato non disponibile</p>
+            <p>📈 Dati oggi: <strong>${datiOggi.conteggio} misurazioni</strong></p>
           </ul>
         `;
         
-        // Prepara gli orari reali per i grafici
-        const orariReali = datiOggi.orari || Array.from({length: datiOggi.temperature.length}, (_, i) => {
-          // Se non ci sono orari salvati, crea orari approssimativi
+        // Usa gli orari reali se disponibili
+        let orariReali = datiOggi.orari || [];
+        
+        if (orariReali.length === 0 && datiOggi.temperature.length > 0) {
+          // Crea orari approssimativi basati sull'ora attuale
           const now = new Date();
-          const ore = now.getHours();
-          const minuti = now.getMinutes() - (i * 15);
-          return `${ore.toString().padStart(2, '0')}:${Math.max(0, minuti).toString().padStart(2, '0')}`;
-        });
+          orariReali = Array.from({length: datiOggi.temperature.length}, (_, i) => {
+            const minutiPassati = i * 15;
+            const data = new Date(now.getTime() - minutiPassati * 60000);
+            return data.toISOString().replace('T', ' ').substring(0, 16);
+          });
+        }
         
         // Crea grafici solo se ci sono dati
         if (datiOggi.temperature.length > 0) {
