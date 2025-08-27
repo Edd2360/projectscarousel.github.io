@@ -100,33 +100,63 @@
     .misure {
       text-align: left;
       display: inline-block;
+      margin-bottom: 30px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 600px;
+    }
+    .grafico-section {
+      width: 100%;
+      margin: 30px 0;
+    }
+    .grafico-title {
+      color: #ffffff;
+      font-size: 6vw;
+      margin-bottom: 15px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .grafico-subtitle {
+      color: #cccccc;
+      font-size: 4vw;
       margin-bottom: 20px;
+      font-style: italic;
     }
     .grafico-container {
       width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
+      max-width: 900px;
+      margin: 0 auto 40px auto;
       background-color: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     }
-    .grafico-title {
-      color: #103c60;
-      font-size: 6vw;
-      margin-bottom: 10px;
+    .grafico-header {
+      background: linear-gradient(135deg, #103c60, #1e5799);
+      color: white;
+      padding: 15px;
+      border-radius: 10px 10px 0 0;
+      margin: -25px -25px 20px -25px;
+    }
+    .grafico-header h4 {
+      margin: 0;
+      font-size: 5vw;
       font-weight: bold;
     }
     canvas {
       width: 100% !important;
-      height: 250px !important;
+      height: 300px !important;
     }
     footer {
       position: static;
-      margin-top: 20px;
+      margin-top: 40px;
       text-align: center;
-      padding: 10px;
-      background-color: #103c60;
+      padding: 20px;
+      background-color: #0a2a4d;
       color: white;
       font-size: 4vw;
     }
@@ -153,13 +183,31 @@
         max-width: 90%;
         white-space: nowrap;
       }
-      .content { font-size: 20px; }
-      footer { font-size: 16px; }
+      .content { 
+        font-size: 20px;
+        padding: 30px 20px;
+      }
+      .misure {
+        font-size: 18px;
+        padding: 25px;
+      }
       .grafico-title {
-        font-size: 24px;
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+      .grafico-subtitle {
+        font-size: 20px;
+        margin-bottom: 25px;
+      }
+      .grafico-header h4 {
+        font-size: 22px;
+      }
+      footer { 
+        font-size: 16px;
+        padding: 25px;
       }
       canvas {
-        height: 300px !important;
+        height: 350px !important;
       }
     }
   </style>
@@ -186,19 +234,28 @@
       </div>
     </section>
 
-    <section>
-      <h3 class="grafico-title">Andamento Oggi - Temperatura e Umidità</h3>
+    <section class="grafico-section">
+      <h3 class="grafico-title">Monitoraggio in Tempo Reale</h3>
+      <p class="grafico-subtitle">Dati acquisiti dalla stazione meteo</p>
+      
       <div class="grafico-container">
+        <div class="grafico-header">
+          <h4>📊 Temperatura e Umidità - Oggi</h4>
+        </div>
         <canvas id="graficoOggi"></canvas>
       </div>
       
-      <h3 class="grafico-title">Andamento Oggi - Pressione</h3>
       <div class="grafico-container">
+        <div class="grafico-header">
+          <h4>📈 Pressione Atmosferica - Oggi</h4>
+        </div>
         <canvas id="graficoPressione"></canvas>
       </div>
       
-      <h3 class="grafico-title">Media Ultimi 7 Giorni - Temperatura e Umidità</h3>
       <div class="grafico-container">
+        <div class="grafico-header">
+          <h4>📅 Medie Ultimi 7 Giorni</h4>
+        </div>
         <canvas id="graficoMedia"></canvas>
       </div>
     </section>
@@ -237,7 +294,7 @@
   </div>
 
   <footer>
-    <p>Coded by Grillo Edoardo</p>
+    <p>📡 Stazione Meteo - Coded by Grillo Edoardo</p>
   </footer>
 
   <script>
@@ -259,26 +316,53 @@
           labels: {
             color: '#000000',
             font: {
-              size: 14
+              size: 14,
+              weight: 'bold'
             }
           }
+        },
+        title: {
+          display: false
         }
       },
       scales: {
         x: {
           ticks: {
-            color: '#000000'
+            color: '#000000',
+            font: {
+              size: 12
+            }
           },
           grid: {
             color: 'rgba(0, 0, 0, 0.1)'
+          },
+          title: {
+            display: true,
+            text: 'Ora del Giorno',
+            color: '#000000',
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
           }
         },
         y: {
           ticks: {
-            color: '#000000'
+            color: '#000000',
+            font: {
+              size: 12
+            }
           },
           grid: {
             color: 'rgba(0, 0, 0, 0.1)'
+          },
+          title: {
+            display: true,
+            color: '#000000',
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
           }
         }
       }
@@ -314,7 +398,8 @@
               borderColor: 'rgb(255, 99, 132)',
               backgroundColor: 'rgba(255, 99, 132, 0.2)',
               tension: 0.4,
-              fill: false
+              fill: false,
+              borderWidth: 3
             },
             {
               label: 'Umidità (%)',
@@ -322,7 +407,8 @@
               borderColor: 'rgb(54, 162, 235)',
               backgroundColor: 'rgba(54, 162, 235, 0.2)',
               tension: 0.4,
-              fill: false
+              fill: false,
+              borderWidth: 3
             }
           ]
         },
@@ -367,7 +453,8 @@
               borderColor: 'rgb(75, 192, 192)',
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               tension: 0.4,
-              fill: false
+              fill: false,
+              borderWidth: 3
             }
           ]
         },
@@ -399,10 +486,10 @@
       const medieTemp = giorni.map(giorno => calcolaMedia(storico[giorno].temperature));
       const medieUmid = giorni.map(giorno => calcolaMedia(storico[giorno].umidita));
 
-      // Formatta le dates in italiano
+      // Formatta le date in italiano
       const labels = giorni.map(data => {
         const [anno, mese, giorno] = data.split('-');
-        return `${giorno}/${mese}`;
+        return `${giorno}/${mese}/${anno.slice(2)}`;
       });
 
       chartMedia = new Chart(ctx, {
@@ -411,20 +498,22 @@
           labels: labels,
           datasets: [
             {
-              label: 'Temp Media (°C)',
+              label: 'Temperatura Media (°C)',
               data: medieTemp,
               borderColor: 'rgb(255, 159, 64)',
               backgroundColor: 'rgba(255, 159, 64, 0.2)',
               tension: 0.4,
-              fill: false
+              fill: false,
+              borderWidth: 3
             },
             {
-              label: 'Umid Media (%)',
+              label: 'Umidità Media (%)',
               data: medieUmid,
               borderColor: 'rgb(153, 102, 255)',
               backgroundColor: 'rgba(153, 102, 255, 0.2)',
               tension: 0.4,
-              fill: false
+              fill: false,
+              borderWidth: 3
             }
           ]
         },
@@ -432,11 +521,19 @@
           ...chartOptionsWhite,
           scales: {
             ...chartOptionsWhite.scales,
+            x: {
+              ...chartOptionsWhite.scales.x,
+              title: {
+                display: true,
+                text: 'Data',
+                color: '#000000'
+              }
+            },
             y: {
               ...chartOptionsWhite.scales.y,
               title: {
                 display: true,
-                text: 'Valori',
+                text: 'Valori Medi',
                 color: '#000000'
               }
             }
@@ -462,14 +559,14 @@
         // Aggiorna HTML
         document.getElementById('misure').innerHTML = `
           <ul style="text-align:left; display:inline-block;">
-            <p>Misure all'orario: ${dati.orario || 'N/A'}</p>
-            <p>Pressione: ${dati.pressione ? dati.pressione + ' hPa' : 'N/A'}</p>
-            <p>Temperatura: ${dati.temperatura ? dati.temperatura + ' °C' : 'N/A'}</p>
-            <p>Umidità: ${dati.umidita ? dati.umidita + ' %' : 'N/A'}</p>
-            <p>Altitudine: ${dati.altitudine ? dati.altitudine + ' m' : 'N/A'}</p>
-            <p>PPM <1.0: Dato non disponibile</p>
-            <p>PPM 2.5: Dato non disponibile</p>
-            <p>PPM 10: Dato non disponibile</p>
+            <p>🕒 Misure all'orario: <strong>${dati.orario || 'N/A'}</strong></p>
+            <p>📊 Pressione: <strong>${dati.pressione ? dati.pressione + ' hPa' : 'N/A'}</strong></p>
+            <p>🌡️ Temperatura: <strong>${dati.temperatura ? dati.temperatura + ' °C' : 'N/A'}</strong></p>
+            <p>💧 Umidità: <strong>${dati.umidita ? dati.umidita + ' %' : 'N/A'}</strong></p>
+            <p>⛰️ Altitudine: <strong>${dati.altitudine ? dati.altitudine + ' m' : 'N/A'}</strong></p>
+            <p>🌫️ PPM <1.0: Dato non disponibile</p>
+            <p>🌫️ PPM 2.5: Dato non disponibile</p>
+            <p>🌫️ PPM 10: Dato non disponibile</p>
           </ul>
         `;
         
@@ -477,19 +574,19 @@
         if (datiOggi.temperature.length > 0) {
           creaGraficoOggi(datiOggi);
         } else {
-          document.getElementById('graficoOggi').innerHTML = '<p>Nessun dato disponibile per oggi</p>';
+          document.getElementById('graficoOggi').innerHTML = '<p style="color: #000; padding: 20px;">Nessun dato disponibile per oggi</p>';
         }
         
         if (datiOggi.pressione.length > 0) {
           creaGraficoPressione(datiOggi);
         } else {
-          document.getElementById('graficoPressione').innerHTML = '<p>Nessun dato pressione disponibile</p>';
+          document.getElementById('graficoPressione').innerHTML = '<p style="color: #000; padding: 20px;">Nessun dato pressione disponibile</p>';
         }
         
         if (Object.keys(storico).length > 0) {
           creaGraficoMedia(storico);
         } else {
-          document.getElementById('graficoMedia').innerHTML = '<p>Nessun dato storico disponibile</p>';
+          document.getElementById('graficoMedia').innerHTML = '<p style="color: #000; padding: 20px;">Nessun dato storico disponibile</p>';
         }
         
       } catch (error) {
